@@ -1,0 +1,15 @@
+[submodule "library/jelly"]
+	path = library/jelly
+	url = http://github.com/jonathangeiger/kohana-jelly.git
+[submodule "library/database"]
+	path = library/database
+	url = http://github.com/kohana/database.git
+[submodule "library/pagination"]
+	path = library/pagination
+	url = http://github.com/kohana/pagination.git
+[submodule "library/cache"]
+	path = library/cache
+	url = http://github.com/kohana/cache.git
+[submodule "kohana"]
+	path = kohana
+	url = http://github.com/kohana/core.git
