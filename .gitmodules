@@ -13,3 +13,6 @@
 [submodule "kohana"]
 	path = kohana
 	url = http://github.com/kohana/core.git
+[submodule "library/orm"]
+	path = library/orm
+	url = http://github.com/kohana/orm.git
