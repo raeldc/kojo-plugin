@@ -54,6 +54,12 @@ class HTML extends Kohana_HTML {
 	
 	public static function uri($uri)
 	{
+		$uri = 'index.php?option='.JRequest::getVar('option', '').'&'.HTML::array_to_urlvars($uri);
+		return JRoute::_($uri, FALSE);
+	}
+	
+	public function array_to_urlvars($uri)
+	{
 		if (is_array($uri)) 
 		{
 			$segments = array();
@@ -64,8 +70,7 @@ class HTML extends Kohana_HTML {
 			$uri = implode('&', $segments);
 		}
 		
-		$uri = 'index.php?option='.JRequest::getVar('option', '').'&'.$uri;
-		return JRoute::_($uri, FALSE);
+		return $uri;
 	}
 	
 	public function ordering($current, $table, $title, $route = 'default', $params = NULL)
@@ -80,8 +85,8 @@ class HTML extends Kohana_HTML {
 			'table' => $table,
 		));
 		
-		$url = Route::get($route)->uri($params);
-		
+		$url = HTML::array_to_urlvars($params);
+
 		$current_table = $session->get($url.'-current-table');
 		
 		$image = HTML::image(JURI::root().'media/system/images/sort_'.$current.'.png');

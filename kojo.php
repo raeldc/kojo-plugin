@@ -62,7 +62,7 @@ class plgSystemKojo extends JPlugin
 		 * @see  http://php.net/spl_autoload_register
 		 */
 		spl_autoload_register(array('KoJo', 'auto_load'));
-		
+
 		/**
 		 * Enable the Kohana auto-loader for unserialization.
 		 *
@@ -85,17 +85,12 @@ class plgSystemKojo extends JPlugin
 		
 		KoJo::$config->attach(new Kohana_Config_File);
 		
-		/**
-		 * Enable modules. Modules are referenced by a relative or absolute path.
-		 */
-		$modules = array_merge($component, array(
+		KoJo::modules(array(
 			'cache'      => MODPATH.'cache',     // Caching with multiple backends
 			'database'   => MODPATH.'database',  	// Database access
 			'pagination' => MODPATH.'pagination', 	// Paging of results
 			'jelly' => MODPATH.'jelly', 			// The best ORM out there
 		));
-		
-		KoJo::modules($modules);
 		
 		define('KOJO_INITIALIZED', TRUE);
 	}
