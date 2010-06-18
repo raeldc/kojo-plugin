@@ -6,7 +6,7 @@ class HTML extends Kohana_HTML {
 	 * Create HTML link anchors. Note that the title is not escaped, to allow
 	 * HTML elements within links (images, etc).
 	 *
-	 *     echo HTML::anchor('/user/profile', 'My Profile');
+	 *     echo self::anchor('/user/profile', 'My Profile');
 	 *
 	 * @modified_by	Israel D. Canasa
 	 *
@@ -17,7 +17,7 @@ class HTML extends Kohana_HTML {
 	 * @return  string
 	 * @uses    URL::base
 	 * @uses    URL::site
-	 * @uses    HTML::attributes
+	 * @uses    self::attributes
 	 */
 	public static function anchor($uri, $title = NULL, array $attributes = NULL, $protocol = NULL)
 	{
@@ -38,7 +38,7 @@ class HTML extends Kohana_HTML {
 		{
 			if (strpos($uri, '://') !== FALSE)
 			{
-				if (HTML::$windowed_urls === TRUE AND empty($attributes['target']))
+				if (self::$windowed_urls === TRUE AND empty($attributes['target']))
 				{
 					// Make the link open in a new window
 					$attributes['target'] = '_blank';
@@ -49,12 +49,12 @@ class HTML extends Kohana_HTML {
 		// Add the sanitized link to the attributes
 		$attributes['href'] = JRoute::_($uri, FALSE);
 
-		return '<a'.HTML::attributes($attributes).'>'.$title.'</a>';
+		return '<a'.self::attributes($attributes).'>'.$title.'</a>';
 	}
 	
 	public static function uri($uri)
 	{
-		$uri = 'index.php?option='.JRequest::getVar('option', '').'&'.HTML::array_to_urlvars($uri);
+		$uri = 'index.php?option='.JRequest::getVar('option', '').'&'.self::array_to_urlvars($uri);
 		return JRoute::_($uri, FALSE);
 	}
 	
@@ -85,14 +85,14 @@ class HTML extends Kohana_HTML {
 			'table' => $table,
 		));
 		
-		$url = HTML::array_to_urlvars($params);
+		$url = self::array_to_urlvars($params);
 
 		$current_table = $session->get($url.'-current-table');
 		
-		$image = HTML::image(JURI::root().'media/system/images/sort_'.$current.'.png');
+		$image = self::image(JURI::root().'media/system/images/sort_'.$current.'.png');
 		
 		$session->set($url.'-current-table', $table);
 		
-		return HTML::anchor($url, JText::_($title).$image);
+		return self::anchor($url, JText::_($title).$image);
 	}
 }

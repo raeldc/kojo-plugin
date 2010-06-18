@@ -186,15 +186,7 @@ class KoJo_Request {
 			{
 				// If the route wasn't passed, just generate the route from $_POST or $_GET values
 				$uri = array_merge(JRequest::get('get'), JRequest::get('post'));
-			}else{
-				$uri = array_merge(JRequest::get('get'), array('controller' => $uri));
 			}
-
-			// Reduce multiple slashes to a single slash
-			$uri = preg_replace('#//+#', '/', $uri);
-
-			// Remove all dot-paths from the URI, they are not valid
-			$uri = preg_replace('#\.[\s./]*/#', '', $uri);
 			
 			// Set the default request client
 			$client = JFactory::getApplication()->isAdmin() ? 'admin' : 'site';
@@ -329,7 +321,7 @@ class KoJo_Request {
 	public $headers = array();
 
 	/**
-	 * @var  string  extension where the controller resides
+	 * @var  string  Joomla! extension where the controller resides
 	 */
 	public $extension;
 
@@ -352,6 +344,11 @@ class KoJo_Request {
 	 * @var  string  client site or admin
 	 */
 	public $client = 'site';
+	
+	/**
+	 * @var  string  path of the current extension
+	 */
+	public $path = '';
 
 	// Parameters extracted from the route
 	protected $_params;
@@ -464,6 +461,17 @@ class KoJo_Request {
 		}
 		
 		return $this;
+	}
+	
+	public function extension($format = 'prefix')
+	{
+		if ($format == 'prefix') 
+		{
+			$prefix = substr($this->extension, 0, 3).substr($this->extension, 4);
+			return $prefix;
+		}
+		
+		return $this->extension;
 	}
 
 	/**
@@ -803,7 +811,12 @@ class KoJo_Request {
 			
 			// Add the classes path in the CFS
 			$path = KoJo::get_path_from_class($prefix.$this->controller);
-			KoJo::add_path($path['path']);
+			
+			// Assign the path to this Request
+			$this->path = $path['path'];
+			
+			// Add the path to the CFS under existing paths of parent Requests
+			KoJo::add_path($this->path);
 
 			if ($class->isAbstract())
 			{
