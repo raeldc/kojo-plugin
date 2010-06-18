@@ -26,11 +26,13 @@ class HTML extends Kohana_HTML {
 			// Use the URI as the title
 			$title = $uri;
 		}
-
+		
+		$uri = self::uri($uri);
+		
 		if ($uri === '')
 		{
 			// Only use the base URL
-			$uri = 'index.php?option='.JRequest::getVar('option', '').'&view='.$uri;
+			$uri = 'index.php?option='.JRequest::getVar('option', '');
 		}
 		else
 		{
@@ -42,11 +44,6 @@ class HTML extends Kohana_HTML {
 					$attributes['target'] = '_blank';
 				}
 			}
-			elseif ($uri[0] !== '#')
-			{
-				// Make the URI absolute for non-id anchors
-				$uri = 'index.php?option='.JRequest::getVar('option', '').'&route='.$uri;
-			}
 		}
 
 		// Add the sanitized link to the attributes
@@ -55,9 +52,19 @@ class HTML extends Kohana_HTML {
 		return '<a'.HTML::attributes($attributes).'>'.$title.'</a>';
 	}
 	
-	public function uri($route)
+	public static function uri($uri)
 	{
-		$uri = JURI::base().'index.php?option='.JRequest::getVar('option', '').'&route='.$route;
+		if (is_array($uri)) 
+		{
+			$segments = array();
+			foreach ($uri as $key => $value) 
+			{
+				$segments[] = $key.'='.$value;
+			}
+			$uri = implode('&', $segments);
+		}
+		
+		$uri = 'index.php?option='.JRequest::getVar('option', '').'&'.$uri;
 		return JRoute::_($uri, FALSE);
 	}
 	

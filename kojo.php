@@ -12,16 +12,6 @@ class plgSystemKojo extends JPlugin
 			return;
 		}
 		
-		$component = array(
-			'admin' => JPATH_COMPONENT_ADMINISTRATOR,
-			'site' => JPATH_COMPONENT_SITE,
-		);
-		
-		if (JFactory::getApplication()->isSite()) 
-		{
-			$component = array_reverse($component);
-		}
-		
 		$application = JPATH_PLUGINS.DS.'system'.DS.'kojo'.DS.'kojo';
 		$modules = JPATH_PLUGINS.DS.'system'.DS.'kojo'.DS.'library';
 		$system = JPATH_PLUGINS.DS.'system'.DS.'kojo'.DS.'kohana';
@@ -62,17 +52,8 @@ class plgSystemKojo extends JPlugin
 
 		// Load the core Kohana class
 		require SYSPATH.'classes/kohana/core'.EXT;
-
-		if (is_file(APPPATH.'classes/kohana'.EXT))
-		{
-			// Application extends the core
-			require APPPATH.'classes/kohana'.EXT;
-		}
-		else
-		{
-			// Load empty core extension
-			require SYSPATH.'classes/kohana'.EXT;
-		}
+		require APPPATH.'classes/kojo'.EXT;
+		require SYSPATH.'classes/kohana'.EXT;
 		
 		/**
 		 * Enable the Kohana auto-loader.
@@ -80,8 +61,8 @@ class plgSystemKojo extends JPlugin
 		 * @see  http://kohanaframework.org/guide/using.autoloading
 		 * @see  http://php.net/spl_autoload_register
 		 */
-		spl_autoload_register(array('Kohana', 'auto_load'));
-
+		spl_autoload_register(array('KoJo', 'auto_load'));
+		
 		/**
 		 * Enable the Kohana auto-loader for unserialization.
 		 *
@@ -90,40 +71,40 @@ class plgSystemKojo extends JPlugin
 		 */
 		ini_set('unserialize_callback_func', 'spl_autoload_call');
 
-		Kohana::init(array(
+		KoJo::init(array(
 			'base_url' => JURI::base(), 
 			'index_file' => 'index.php',
 			'cache_dir' => JPATH_SITE.DS.'cache', 
 		));
 		
-		Kohana::$log->attach(
+		KoJo::$log->attach(
 			new Kohana_Log_File(
 				JFactory::getConfig()->getValue('log_path')
 			)
 		);
 		
-		Kohana::$config->attach(new Kohana_Config_File);
+		KoJo::$config->attach(new Kohana_Config_File);
 		
 		/**
 		 * Enable modules. Modules are referenced by a relative or absolute path.
 		 */
 		$modules = array_merge($component, array(
-			'kojo'		 => APPPATH,
 			'cache'      => MODPATH.'cache',     // Caching with multiple backends
 			'database'   => MODPATH.'database',  	// Database access
 			'pagination' => MODPATH.'pagination', 	// Paging of results
 			'jelly' => MODPATH.'jelly', 			// The best ORM out there
 		));
-
-		define('KOJO_INITIALIZED', TRUE);
 		
+		KoJo::modules($modules);
+		
+		define('KOJO_INITIALIZED', TRUE);
 	}
 	
 	public function ExitKojo()
 	{
 		if (defined('KOJO_INITIALIZED')) 
 		{
-			Kohana::deinit();
+			KoJo::deinit();
 		}
 	}
 }
