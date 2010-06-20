@@ -87,6 +87,7 @@ class plgSystemKojo extends JPlugin
 		
 		KoJo::modules(array(
 			'cache'      => MODPATH.'cache',     // Caching with multiple backends
+			'orm'   => MODPATH.'orm',  	// Database access
 			'database'   => MODPATH.'database',  	// Database access
 			'pagination' => MODPATH.'pagination', 	// Paging of results
 			'jelly' => MODPATH.'jelly', 			// The best ORM out there

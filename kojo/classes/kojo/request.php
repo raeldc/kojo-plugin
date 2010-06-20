@@ -324,6 +324,11 @@ class KoJo_Request {
 	 * @var  string  Joomla! extension where the controller resides
 	 */
 	public $extension;
+	
+	/**
+	 * @var  string  Prefix of the extension
+	 */
+	public $extension_prefix;
 
 	/**
 	 * @var  string  controller to be executed
@@ -780,7 +785,10 @@ class KoJo_Request {
 			$extension = substr($this->extension, 0, 3).substr($this->extension, 4);
 
 			// Add the extension name to the class prefix. Add _admin_ depending on the client being called
-			$prefix = ($this->client == 'admin') ? $extension.'_admin_'.$prefix : $extension.'_'.$prefix;
+			$this->extension_prefix = ($this->client == 'admin') ? $extension.'_admin_' : $extension.'_';
+			
+			// Set the extension prefix for the controller
+			$prefix = $this->extension_prefix.$prefix;
 		}
 
 		if (Kohana::$profiling)

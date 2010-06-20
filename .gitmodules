@@ -16,3 +16,6 @@
 [submodule "library/orm"]
 	path = library/orm
 	url = http://github.com/kohana/orm.git
+[submodule "library/automodeler"]
+	path = library/automodeler
+	url = http://github.com/zombor/Auto-Modeler.git

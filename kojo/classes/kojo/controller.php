@@ -57,6 +57,10 @@ abstract class KoJo_Controller {
 		{
 			$this->params = JComponentHelper::getParams(JRequest::getVar('option'));
 			$this->params->merge(JFactory::getApplication()->getParams());
+		}else
+		{
+			// Create an empty JRegistry object
+			$this->params = new JRegistry;
 		}
 		
 		if ( ! defined('KOJO_VIEW_GLOBALS')) 
