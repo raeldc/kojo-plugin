@@ -28,6 +28,6 @@ return array
 		'table_prefix' => $config->getValue('config.dbprefix'),
 		'charset'      => 'utf8',
 		'caching'      => FALSE,
-		'profiling'    => FALSE,
+		'profiling'    => TRUE,
 	)
 );

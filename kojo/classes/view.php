@@ -13,11 +13,15 @@ class View extends Kohana_View
 	 */
 	public function set_filename($file)
 	{
-		if (is_dir(Request::current()->path)) 
+		$path = Request::current()->path.'views'.DS.$file.EXT;
+		
+		if (is_file($path)) 
 		{
-			$path = Request::current()->path.'views'.DS.$file.EXT;
+			$this->_file = $path;
+			return $this;
 		}
-		elseif (($path = Kohana::find_file('views', $file)) === FALSE)
+		
+		if (($path = Kohana::find_file('views', $file)) === FALSE)
 		{
 			throw new Kohana_View_Exception('The requested view :file could not be found', array(
 				':file' => $file,
