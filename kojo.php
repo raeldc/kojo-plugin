@@ -88,6 +88,7 @@ class plgSystemKojo extends JPlugin
 		KoJo::modules(array(
 			'cache'      	=> MODPATH.'cache', // Caching with multiple backends
 			'magic' 		=> MODPATH.'magic', // Classes for Auto-Magic patterns. Nooku style.
+			'kostache'      => MODPATH.'kostache', // Logicless templates plus a nice View Class
 			'orm'  			=> MODPATH.'orm', // Database access
 			'database'   	=> MODPATH.'database', // Database access
 			'pagination' 	=> MODPATH.'pagination', // Paging of results

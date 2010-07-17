@@ -35,7 +35,7 @@ class Magic_Controller extends Controller
 				}
 			}
 
-			$this->template->content = Kostache::factory($this->request->controller.'/'.$current_action)
+			$this->request->response = Kostache::factory($this->request->controller.'/'.$current_action)
 				->set_model($model)
 				->render();
 
