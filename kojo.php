@@ -86,11 +86,12 @@ class plgSystemKojo extends JPlugin
 		KoJo::$config->attach(new Kohana_Config_File);
 		
 		KoJo::modules(array(
-			'cache'      => MODPATH.'cache',     // Caching with multiple backends
-			'orm'   => MODPATH.'orm',  	// Database access
-			'database'   => MODPATH.'database',  	// Database access
-			'pagination' => MODPATH.'pagination', 	// Paging of results
-			'jelly' => MODPATH.'jelly', 			// The best ORM out there
+			'cache'      	=> MODPATH.'cache', // Caching with multiple backends
+			'magic' 		=> MODPATH.'magic', // Classes for Auto-Magic patterns. Nooku style.
+			'orm'  			=> MODPATH.'orm', // Database access
+			'database'   	=> MODPATH.'database', // Database access
+			'pagination' 	=> MODPATH.'pagination', // Paging of results
+			'jelly' 		=> MODPATH.'jelly', // The best ORM out there
 		));
 		
 		define('KOJO_INITIALIZED', TRUE);

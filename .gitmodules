@@ -19,3 +19,6 @@
 [submodule "library/automodeler"]
 	path = library/automodeler
 	url = http://github.com/zombor/Auto-Modeler.git
+[submodule "library/kostache"]
+	path = library/kostache
+	url = http://github.com/zombor/KOstache.git
