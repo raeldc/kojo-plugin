@@ -36,8 +36,7 @@ class Magic_Controller extends Controller
 			}
 
 			$this->request->response = Kostache::factory($this->request->controller.'/'.$current_action)
-				->set_model($model)
-				->render();
+				->set_model($model);
 
 			// Since the magic has been executed, just execute an empty action
 			$this->request->action = 'default';

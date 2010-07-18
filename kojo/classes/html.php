@@ -1,6 +1,37 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
-class HTML extends Kohana_HTML {
+class HTML extends Kohana_HTML 
+{
+	public function add_script($url)
+	{
+		$url = HTML::parse_media_url($url);
+
+		if (substr(-3, 3, $url) != '.js') {
+			$url .= '.js';
+		}
+		
+		JFactory::getDocument()->addScript($url);
+		return $url;
+	}
+	
+	public function add_stylesheet($url)
+	{
+		$url = HTML::parse_media_url($url);
+		
+		if (substr(-4, 4, $url) != '.css') {
+			$url .= '.css';
+		}
+		
+		JFactory::getDocument()->addStyleSheet($url);
+		return $url;
+	}
+	
+	public function parse_media_url($url)
+	{
+		$media_url = JURI::root(TRUE).'/media/';
+		return str_replace('media://', $media_url, $url);
+	}
+	
 	
 	/**
 	 * Create HTML link anchors. Note that the title is not escaped, to allow

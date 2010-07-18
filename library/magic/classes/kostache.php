@@ -2,6 +2,8 @@
 
 class KOstache extends Mustache
 {
+	public static $globals = array();
+	
 	final public static function factory($path, $template = null, $view = null, $partials = null)
 	{
 		static $instances;
@@ -37,6 +39,18 @@ class KOstache extends Mustache
 			return $instances[$path] = new $class($template, $view, $partials);
 	}
 	
+	final public function set_global($key, $value = NULL)
+	{
+		if (is_array($key) AND Arr::is_assoc($key)) 
+		{
+			Kostache::$globals = Arr::merge(Kostache::$globals, $key);
+		}
+		else
+		{
+			Kostache::$globals[$key] = $value;
+		}
+	}
+	
 	protected $_model;
 	protected $_template_path;
 	
@@ -50,7 +64,7 @@ class KOstache extends Mustache
 		// Convert partials to expanded template strings
 		foreach ($this->_partials as $key => $partial_template)
 		{
-			if ($location = Kohana::find_file('templates', $partial_template, 'mustache'))
+			if ($location = Kohana::find_file('tmpl', $partial_template, 'mustache'))
 			{
 				$this->_partials[$key] = file_get_contents($location);
 			}
@@ -59,6 +73,23 @@ class KOstache extends Mustache
 		$this->initialize();
 
 		$this->fetch_template($template);
+	}
+	
+	public function initialize()
+	{
+		
+	}
+	
+	public function render($template = null, $view = null, $partials = null)
+	{
+		foreach (Kostache::$globals as $key => $value) {
+			if ( ! isset($this->{$key}) AND ! method_exists($this, $key)) 
+			{
+				$this->set($key, $value);
+			}
+		}
+
+		return parent::render($template, $view, $partials);
 	}
 	
 	public function fetch_template($template = NULL)
@@ -76,7 +107,7 @@ class KOstache extends Mustache
 			$this->_template_path = $template;
 		}
 
-		$template = Kohana::find_file('templates', $this->_template_path, 'mustache');
+		$template = Kohana::find_file('tmpl', $this->_template_path, 'mustache');
 
 		if ($template)
 			$this->_template = file_get_contents($template);
@@ -96,7 +127,7 @@ class KOstache extends Mustache
 		// Convert partials to expanded template strings
 		foreach ($partials as $key => $partial_template)
 		{
-			if ($location = Kohana::find_file('templates', $partial_template, 'mustache'))
+			if ($location = Kohana::find_file('tmpl', $partial_template, 'mustache'))
 			{
 				$this->_partials[$key] = file_get_contents($location);
 			}
