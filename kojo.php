@@ -12,9 +12,9 @@ class plgSystemKojo extends JPlugin
 			return;
 		}
 		
-		$application = JPATH_PLUGINS.DS.'system'.DS.'kojo';
-		$modules = JPATH_PLUGINS.DS.'system'.DS.'library';
-		$system = JPATH_PLUGINS.DS.'system'.DS.'kohana';
+		$application = JPATH_PLUGINS.DS.'system'.DS.'kojo'.DS.'kojo';
+		$modules = JPATH_PLUGINS.DS.'system'.DS.'kojo'.DS.'library';
+		$system = JPATH_PLUGINS.DS.'system'.DS.'kojo'.DS.'kohana';
 
 		/**
 		 * The default extension of resource files. If you change this, all resources
