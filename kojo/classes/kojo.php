@@ -110,6 +110,11 @@ class KoJo extends Kohana_Core
 			// Class has been found
 			return TRUE;
 		}
+		
+		if(JLoader::load($class)) 
+		{
+			return true;
+		}
 
 		// Class is not in the filesystem
 		return FALSE;
