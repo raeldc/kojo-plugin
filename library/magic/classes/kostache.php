@@ -220,4 +220,26 @@ class KOstache extends Mustache
 
 		return $pagination->render();
 	}
+	
+	public function stylesheets()
+	{
+		$stylesheets = array();
+		foreach (JFactory::getDocument()->_styleSheets as $url => $type) {
+			$style = new stdclass;
+			$style->stylesheet = '<link rel="stylesheet" href="'.$url.'" type="'.$type['mime'].'" media="'.Arr::get($type, 'media', 'screen').'" />';
+			$stylesheets[] = $style;
+		}
+		return $stylesheets;
+	}
+	
+	public function scripts()
+	{
+		$scripts = array();
+		foreach (JFactory::getDocument()->_scripts as $url => $type) {
+			$script = new stdclass;
+			$script->script = '<script src="'.$url.'" type="'.$type.'"></script>';
+			$scripts[] = $script;
+		}
+		return $scripts;
+	}
 }
